@@ -1,0 +1,31 @@
+{
+  "name": "html-normalizer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "karma start",
+    "develop-test": "NODE_ENV=development karma start",
+    "start": "NODE_ENV=development yarn run webpack-dev-server",
+    "build": "NODE_ENV=production yarn run webpack",
+    "build:dev": "NODE_ENV=development yarn run webpack"
+  },
+  "author": "",
+  "license": "SEE LICENSE IN README.md",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.16.0",
+    "eslint-loader": "^1.9.0",
+    "karma": "^2.0.0",
+    "karma-babel-preprocessor": "^7.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-qunit": "^1.2.1",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.9",
+    "qunitjs": "^2.4.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
+  }
+}

@@ -1,0 +1,26 @@
+language: node_js
+node_js:
+  - '8.1.4'
+sudo: required
+dist: trusty
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+env:
+  matrix:
+  - BROWSER=Chrome
+addons:
+  apt:
+    packages:
+    - google-chrome-stable
+before_script:
+  - export DISPLAY=:99
+  - sh -e /etc/init.d/xvfb start
+  - sleep 3
+install:
+  - yarn
+  - webpack
+script:
+  - yarn run test
