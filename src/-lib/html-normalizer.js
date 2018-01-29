@@ -64,7 +64,7 @@ export default class HTMLNormalizer {
 
     // Add the newly resolved path.
     if (docBase) {
-      url.pathname = reconcilePaths(pathname, docBase);
+      url.pathname = pathDir(reconcilePaths(pathname, docBase));
     }
 
     return url;
@@ -84,13 +84,15 @@ function isAbsoluteURL(url) {
 }
 
 function reconcilePaths(startPath, updatePath) {
-  // If the "update path" starts with a slash, it's a replace operation
   if (/^\//.test(updatePath)) {
     return updatePath;
   } else {
-    return [...pathDir(startPath).split('/'), ...pathDir(updatePath).split('/')]
-      .filter(p => !!p)
-      .join('/') + '/';
+    const pathParts = [...pathDir(startPath).split('/'), ...updatePath.split('/')];
+
+    // Ensure there aren't any "double slashes" in the middle of the path.
+    return pathParts
+      .filter((part, index, arr) => part !== '' || index === 0 || index == arr.length - 1)
+      .join('/');
   }
 }
 

@@ -1,3 +1,3 @@
-const HTML = '<html></html>';
+import HTMLNormalizer from './-lib/html-normalizer';
 
-export default HTML;
+export { HTMLNormalizer };

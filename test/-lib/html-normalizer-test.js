@@ -217,6 +217,24 @@ module('HTMLNormalizer', () => {
         assert.equal(result, 'https://www.movableink.com/path/to/something/somewhere/else/');
       });
 
+      test('it preserves file name on absolute path', (assert) => {
+        const normalizer = new HTMLNormalizer('');
+        normalizer._baseURL = new URL('https://www.movableink.com/path/to/something/');
+
+        const result = normalizer.absolutizePath('/somewhere/else/image.jpg');
+
+        assert.equal(result, 'https://www.movableink.com/somewhere/else/image.jpg');
+      });
+
+      test('it preserves the file name on relative paths', (assert) => {
+        const normalizer = new HTMLNormalizer('');
+        normalizer._baseURL = new URL('https://www.movableink.com/path/to/something/');
+
+        const result = normalizer.absolutizePath('somewhere/else/image.jpg');
+
+        assert.equal(result, 'https://www.movableink.com/path/to/something/somewhere/else/image.jpg');
+      });
+
       test('it preserves query params', (assert) => {
         const normalizer = new HTMLNormalizer('');
         normalizer._baseURL = new URL('https://www.movableink.com/path/to/something/');
