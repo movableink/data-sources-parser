@@ -1,14 +1,11 @@
 {
-  "name": "html-normalizer",
-  "version": "1.0.0",
+  "name": "data-sources-parser",
+  "version": "0.1.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
     "test": "karma start",
-    "develop-test": "NODE_ENV=development karma start",
-    "start": "NODE_ENV=development yarn run webpack-dev-server",
-    "build": "NODE_ENV=production yarn run webpack",
-    "build:dev": "NODE_ENV=development yarn run webpack"
+    "develop-test": "NODE_ENV=development karma start"
   },
   "author": "",
   "license": "SEE LICENSE IN README.md",
