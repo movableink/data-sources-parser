@@ -1,7 +1,7 @@
 export default class HTMLNormalizer {
   constructor(htmlText, resourceURL = window.location.href) {
     this._document = this._createDocument(htmlText);
-    this._url = this._generateBaseURL(resourceURL);
+    this._baseURL = this._generateBaseURL(resourceURL);
   }
 
   get document() {
@@ -9,7 +9,22 @@ export default class HTMLNormalizer {
   }
 
   get baseURL() {
-    return this._url.toString();
+    return this._baseURL.toString();
+  }
+
+  absolutizePath(providedPath) {
+    if (isAbsoluteURL(providedPath)) {
+      return ensureProtocol(providedPath, this._baseURL.protocol);
+    }
+
+    const url = new URL(this.baseURL); // Copy the URL.
+    const { pathname, hash, search } = extractPathParts(providedPath);
+
+    url.pathname = reconcilePaths(url.pathname, pathname);
+    url.search = search;
+    url.hash = hash;
+
+    return url.toString();
   }
 
   _getDocumentBaseURL() {
@@ -27,9 +42,7 @@ export default class HTMLNormalizer {
 
     if (isAbsoluteURL(docBase)) {
       // if the base is missing a protocol, add it:
-      if (/^\/\//.test(docBase)) {
-        docBase = `${url.protocol}${docBase}`;
-      }
+      docBase = ensureProtocol(docBase, url.protocol);
 
       url = new URL(docBase);
       docBase = '';
@@ -56,12 +69,15 @@ export default class HTMLNormalizer {
 
     return url;
   }
-
-  // absolutizePath
-  // extractMapping
-  // toString
 }
 
+function ensureProtocol(url, protocol) {
+  if (/^\/\//.test(url)) {
+    url = `${protocol}${url}`;
+  }
+
+  return url;
+}
 
 function isAbsoluteURL(url) {
   return /^(https?|\/\/)/.test(url);
@@ -80,4 +96,15 @@ function reconcilePaths(startPath, updatePath) {
 
 function pathDir(path) {
   return path.replace(/[^\/]+$/, '');
+}
+
+function extractPathParts(path) {
+  const isRootPath = path.charAt(0) === '/';
+  let { search, hash, pathname } = new URL(`https://www.movableink.com${isRootPath ? '' : '/'}${path}`);
+
+  if (!isRootPath) {
+    pathname = pathname.replace(/^\//, '');
+  }
+
+  return { search, hash, pathname };
 }

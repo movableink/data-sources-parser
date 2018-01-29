@@ -144,4 +144,105 @@ module('HTMLNormalizer', () => {
       });
     });
   });
+
+  module('#absoluteizePath', () => {
+    module('absolute paths', () => {
+      test('it does nothing to an already absolute URL', (assert) => {
+        const normalizer = new HTMLNormalizer('');
+        normalizer._baseURL = new URL('https://www.movableink.com/');
+
+        const url = 'https://www.not-here.com/somewhere/else'
+        const result = normalizer.absolutizePath(url);
+
+        assert.equal(result, url);
+      });
+
+      test('it keeps query params', (assert) => {
+        const normalizer = new HTMLNormalizer('');
+        normalizer._baseURL = new URL('https://www.movableink.com/');
+
+        const url = 'https://www.not-here.com/somewhere/else?foo=bar'
+        const result = normalizer.absolutizePath(url);
+
+        assert.equal(result, url);
+      });
+
+      test('it keeps fragment params', (assert) => {
+        const normalizer = new HTMLNormalizer('');
+        normalizer._baseURL = new URL('https://www.movableink.com/');
+
+        const url = 'https://www.not-here.com/somewhere/else#the-fragment'
+        const result = normalizer.absolutizePath(url);
+
+        assert.equal(result, url);
+      });
+
+      test('it adds the `https` protocol absolute URL', (assert) => {
+        const normalizer = new HTMLNormalizer('');
+        normalizer._baseURL = new URL('https://www.movableink.com/');
+
+        const url = '//www.not-here.com/somewhere/else'
+        const result = normalizer.absolutizePath(url);
+
+        assert.equal(result, `https:${url}`);
+      });
+
+      test('it adds the `http` protocol absolute URL', (assert) => {
+        const normalizer = new HTMLNormalizer('');
+        normalizer._baseURL = new URL('http://www.movableink.com/');
+
+        const url = '//www.not-here.com/somewhere/else'
+        const result = normalizer.absolutizePath(url);
+
+        assert.equal(result, `http:${url}`);
+      });
+    });
+
+    module('relative paths', () => {
+      test('it uses the base URL for absolute paths', (assert) => {
+        const normalizer = new HTMLNormalizer('');
+        normalizer._baseURL = new URL('https://www.movableink.com/path/to/something/');
+
+        const result = normalizer.absolutizePath('/somewhere/else/');
+
+        assert.equal(result, 'https://www.movableink.com/somewhere/else/');
+      });
+
+      test('it uses the base URL for relative paths', (assert) => {
+        const normalizer = new HTMLNormalizer('');
+        normalizer._baseURL = new URL('https://www.movableink.com/path/to/something/');
+
+        const result = normalizer.absolutizePath('somewhere/else/');
+
+        assert.equal(result, 'https://www.movableink.com/path/to/something/somewhere/else/');
+      });
+
+      test('it preserves query params', (assert) => {
+        const normalizer = new HTMLNormalizer('');
+        normalizer._baseURL = new URL('https://www.movableink.com/path/to/something/');
+
+        const result = normalizer.absolutizePath('/somewhere/else/?foo=bar');
+
+        assert.equal(result, 'https://www.movableink.com/somewhere/else/?foo=bar');
+      });
+
+      test('it preserves query params that happen to end with a slash', (assert) => {
+        const normalizer = new HTMLNormalizer('');
+        normalizer._baseURL = new URL('https://www.movableink.com/path/to/something/');
+
+        const result = normalizer.absolutizePath('/somewhere/else/?foo=bar/');
+
+        assert.equal(result, 'https://www.movableink.com/somewhere/else/?foo=bar/');
+      });
+
+      test('it preserves the URL fragment', (assert) => {
+        const normalizer = new HTMLNormalizer('');
+        normalizer._baseURL = new URL('https://www.movableink.com/path/to/something/');
+
+        const result = normalizer.absolutizePath('/somewhere/else/#my-fragment');
+
+        assert.equal(result, 'https://www.movableink.com/somewhere/else/#my-fragment');
+      });
+    });
+  });
 });
