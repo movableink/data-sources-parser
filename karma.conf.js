@@ -1,4 +1,3 @@
-const webpackConfig = require('./webpack.config.js');
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 // Karma configuration
