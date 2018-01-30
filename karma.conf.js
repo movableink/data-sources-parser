@@ -1,4 +1,3 @@
-const webpackConfig = require('./webpack.config.js');
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 // Karma configuration
@@ -24,7 +23,7 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     singleRun: !isDevelopment,
     client: {
       captureConsole: !isDevelopment
@@ -43,6 +42,9 @@ module.exports = function(config) {
           }
         ]
       }
+    },
+    webpackMiddleware: {
+      noInfo: true
     }
   });
 };
