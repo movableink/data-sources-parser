@@ -51,3 +51,22 @@ const normalizer = new HTMLNormalizer('<base href="/home/" />', 'https://www.mov
 const logoURL = normalizer.absolutizePath('images/logo.png');
 console.log(logoURL); // https://www.movableink.com/home/images/logo.png
 ```
+
+## Releases
+
+To release a change, run the release command.
+
+(This uses [release-it](https://github.com/webpro/release-it) for managing the releases).
+
+```sh
+yarn run release
+```
+
+By default, this will be a patch release. If you wish to release a different change:
+
+```sh
+yarn run release patch;
+yarn run release minor;
+yarn run release major;
+yarn run release 2.8.3;
+```
