@@ -8,7 +8,7 @@
     "develop-test": "NODE_ENV=development karma start",
     "release": "release-it",
     "build": "rollup -c",
-    "prepublish": "rollup -c"
+    "prepare": "rollup -c"
   },
   "author": "",
   "license": "MIT",
