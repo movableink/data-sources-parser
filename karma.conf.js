@@ -14,8 +14,8 @@ module.exports = function(config) {
     ],
 
     preprocessors: {
-      'src/index.js': ['webpack'],
-      'test/**/*.js': ['webpack']
+      'src/index.js': ['rollup'],
+      'test/**/*.js': ['rollup']
     },
 
     reporters: isDevelopment ? ['progress'] : ['dots'],
@@ -29,22 +29,12 @@ module.exports = function(config) {
       captureConsole: !isDevelopment
     },
     concurrency: Infinity,
-    webpack: {
-      devtool: 'inline-source-map',
-      module: {
-        rules: [
-          {
-            test: /\.js$/,
-            exclude: /node_modules/,
-            use: [
-              'babel-loader'
-            ]
-          }
-        ]
+
+    rollupPreprocessor: {
+      output: {
+        name: 'dataSourcesParser',
+        format: 'iife'
       }
-    },
-    webpackMiddleware: {
-      noInfo: true
     }
   });
 };
