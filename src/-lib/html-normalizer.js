@@ -52,19 +52,13 @@ export default class HTMLNormalizer {
       url.pathname = pathDir(url.pathname);
     }
 
-    const { searchParams, pathname } = url;
-
-    // Remove the Query Params
-    for (let key of searchParams.keys()) {
-      searchParams.delete(key);
-    }
-
-    // Remove the fragment, if present
+    // Remove the fragment and search, if present
+    url.search = '';
     url.hash = '';
 
     // Add the newly resolved path.
     if (docBase) {
-      url.pathname = pathDir(reconcilePaths(pathname, docBase));
+      url.pathname = pathDir(reconcilePaths(url.pathname, docBase));
     }
 
     return url;
