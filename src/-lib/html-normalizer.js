@@ -16,26 +16,33 @@ export default class HTMLNormalizer {
     if (isAbsoluteURL(providedPath)) {
       return ensureProtocol(providedPath, this._baseURL.protocol);
     }
-
+    
     const url = new URL(this.baseURL); // Copy the URL.
     const { pathname, hash, search } = extractPathParts(providedPath);
-
+    
     url.pathname = reconcilePaths(url.pathname, pathname);
     url.search = search;
     url.hash = hash;
-
+    
     return url.toString();
   }
-
+  
   _getDocumentBaseURL() {
     const baseTag = this._document.querySelector('base');
     return baseTag && baseTag.getAttribute('href');
   }
-
+  
   _createDocument(html) {
-    return new DOMParser().parseFromString(html, 'text/html');
-  }
+    let document = new DOMParser().parseFromString(html, 'text/html');
 
+    //force charset encoding to utf-8, necessary for some non-english sites
+    let metaTag = document.querySelector('meta');
+    if (metaTag) {
+      metaTag.setAttribute('charset', 'utf-8')
+    }
+    return document;
+  }
+  
   _generateBaseURL(resourceURL) {
     let url = new URL(resourceURL);
     let docBase = this._getDocumentBaseURL();
