@@ -261,11 +261,6 @@ module('HTMLNormalizer', () => {
 
         assert.equal(result, 'https://www.movableink.com/somewhere/else/#my-fragment');
       });
-      
-      test('it changes charset encoding to utf-8', (assert) => {
-        const normalizer = new HTMLNormalizer('<html><head><meta charset="euc-jp"></head></html>', 'https://www.rakuten.co.jp');
-        assert.equal(normalizer.document.head.firstChild.getAttribute('charset'), 'utf-8' );
-      });
     });
   });
 });
