@@ -33,7 +33,14 @@ export default class HTMLNormalizer {
   }
   
   _createDocument(html) {
-    return new DOMParser().parseFromString(html, 'text/html');
+    let document = new DOMParser().parseFromString(html, 'text/html');
+
+    //force charset encoding to utf-8, necessary for some non-english sites
+    let metaTag = document.querySelector('meta');
+    if (metaTag) {
+      metaTag.setAttribute('charset', 'utf-8')
+    }
+    return document;
   }
   
   _generateBaseURL(resourceURL) {
