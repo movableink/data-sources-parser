@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "karma start",
+    "test": "eslint . && karma start",
     "develop-test": "NODE_ENV=development karma start",
     "release": "release-it",
     "build": "rollup -c",
@@ -13,19 +13,33 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "eslint": "^4.16.0",
+    "@babel/core": "^7.0.0-beta.55",
+    "@babel/plugin-external-helpers": "^7.0.0-beta.55",
+    "@babel/plugin-transform-runtime": "^7.0.0-beta.55",
+    "@babel/preset-env": "^7.0.0-beta.55",
+    "eslint": "^5.2.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-config-esnext": "^3.0.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-loader": "^1.9.0",
-    "karma": "^2.0.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-react": "^7.10.0",
+    "karma": "^2.0.5",
     "karma-chrome-launcher": "^2.2.0",
-    "karma-qunit": "^1.2.1",
-    "karma-rollup-preprocessor": "^5.1.1",
+    "karma-qunit": "^2.1.0",
+    "karma-rollup-preprocessor": "^6.0.0",
     "karma-sourcemap-loader": "^0.3.7",
+    "prettier": "^1.14.0",
+    "qunit": "^2.6.1",
     "qunitjs": "^2.4.1",
     "release-it": "^6.1.1",
-    "rollup": "^0.55.3",
-    "rollup-plugin-babel": "^3.0.3"
+    "rollup": "^0.63.5",
+    "rollup-plugin-babel": "^3.0.7"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.55"
   }
 }

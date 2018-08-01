@@ -8,10 +8,7 @@ module.exports = function(config) {
 
     frameworks: ['qunit'],
 
-    files: [
-      'src/index.js',
-      'test/**/*.js'
-    ],
+    files: ['src/index.js', 'test/**/*.js'],
 
     preprocessors: {
       'src/index.js': ['rollup'],
@@ -23,10 +20,15 @@ module.exports = function(config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['ChromeHeadless'],
+    browsers: ['Chrome'],
     singleRun: !isDevelopment,
     client: {
-      captureConsole: !isDevelopment
+      captureConsole: !isDevelopment,
+      clearContext: false,
+      qunit: {
+        showUI: true,
+        testTimeout: 60000
+      }
     },
     concurrency: Infinity,
 

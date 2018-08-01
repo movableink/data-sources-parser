@@ -67,7 +67,7 @@ export default class HTMLNormalizer {
 
 function ensureProtocol(url, protocol) {
   if (/^\/\//.test(url)) {
-    url = `${protocol}${url}`;
+    return `${protocol}${url}`;
   }
 
   return url;
@@ -80,27 +80,33 @@ function isAbsoluteURL(url) {
 function reconcilePaths(startPath, updatePath) {
   if (/^\//.test(updatePath)) {
     return updatePath;
-  } else {
-    const pathParts = [...pathDir(startPath).split('/'), ...updatePath.split('/')];
-
-    // Ensure there aren't any "double slashes" in the middle of the path.
-    return pathParts
-      .filter((part, index, arr) => part !== '' || index === 0 || index == arr.length - 1)
-      .join('/');
   }
+
+  const pathParts = [
+    ...pathDir(startPath).split('/'),
+    ...updatePath.split('/')
+  ];
+
+  // Ensure there aren't any "double slashes" in the middle of the path.
+  return pathParts
+    .filter(
+      (part, index, arr) =>
+        part !== '' || index === 0 || index === arr.length - 1
+    )
+    .join('/');
 }
 
 function pathDir(path) {
-  return path.replace(/[^\/]+$/, '');
+  return path.replace(/[^/]+$/, '');
 }
 
 function extractPathParts(path) {
   const isRootPath = path.charAt(0) === '/';
-  let { search, hash, pathname } = new URL(`https://www.movableink.com${isRootPath ? '' : '/'}${path}`);
+  const { search, hash, pathname: ogPath } = new URL(
+    `https://www.movableink.com${isRootPath ? '' : '/'}${path}`
+  );
 
-  if (!isRootPath) {
-    pathname = pathname.replace(/^\//, '');
-  }
+  const pathname = isRootPath ? ogPath : ogPath.replace(/^\//, '');
 
   return { search, hash, pathname };
 }
