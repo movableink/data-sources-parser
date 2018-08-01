@@ -1,4 +1,4 @@
 import HTMLNormalizer from './-lib/html-normalizer';
+import XMLConverter from './-lib/xml-converter';
 
-// eslint-disable-next-line
-export { HTMLNormalizer };
+export { HTMLNormalizer, XMLConverter };
