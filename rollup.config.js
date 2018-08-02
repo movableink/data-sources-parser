@@ -8,6 +8,7 @@ module.exports = {
   },
   plugins: [
     babel({
+      runtimeHelpers: true,
       exclude: 'node_modules/**' // only transpile our source code
     })
   ]

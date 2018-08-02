@@ -1,11 +1,13 @@
 module.exports = {
-  runtimeHelpers: true,
   include: ['src/**', 'test/**'],
   presets: [
     [
       '@babel/env',
       {
-        modules: false
+        modules: false,
+        targets: {
+          browsers: ['Last 2 versions', 'IE 11']
+        }
       }
     ]
   ],
