@@ -333,5 +333,34 @@ module('HTMLNormalizer', () => {
         );
       });
     });
+
+    module('special characters', () => {
+      test('it handles paths with spaces in it', assert => {
+        const normalizer = new HTMLNormalizer('');
+
+        const url = 'https://www.not-here.com/somewhere/ else';
+        const result = normalizer.absolutizePath(url);
+
+        assert.equal(result, url);
+      });
+
+      test('it handles already encoded URLs with spaces', assert => {
+        const normalizer = new HTMLNormalizer('');
+
+        const url = 'https://www.not-here.com/somewhere/%20else';
+        const result = normalizer.absolutizePath(url);
+
+        assert.equal(result, url);
+      });
+
+      test('it handles already encoded URLs with spaces', assert => {
+        const normalizer = new HTMLNormalizer('');
+
+        const url = 'https://www.not-here.com/ш?x=л#ы';
+        const result = normalizer.absolutizePath(url);
+
+        assert.equal(result, url);
+      });
+    });
   });
 });

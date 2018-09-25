@@ -20,9 +20,9 @@ export default class HTMLNormalizer {
     const url = new URL(this.baseURL); // Copy the URL.
     const { pathname, hash, search } = extractPathParts(providedPath);
 
-    url.pathname = reconcilePaths(url.pathname, pathname);
-    url.search = search;
-    url.hash = hash;
+    url.pathname = decodeURI(reconcilePaths(url.pathname, pathname));
+    url.search = decodeURI(search);
+    url.hash = decodeURI(hash);
 
     return url.toString();
   }
@@ -49,7 +49,7 @@ export default class HTMLNormalizer {
 
       // If the `base` happens to not end in a trailing slash, then we
       // remove the last segment of that path to compute the "base"
-      url.pathname = pathDir(url.pathname);
+      url.pathname = decodeURI(pathDir(url.pathname));
     }
 
     // Remove the fragment and search, if present
@@ -58,7 +58,7 @@ export default class HTMLNormalizer {
 
     // Add the newly resolved path.
     if (docBase) {
-      url.pathname = pathDir(reconcilePaths(url.pathname, docBase));
+      url.pathname = decodeURI(pathDir(reconcilePaths(url.pathname, docBase)));
     }
 
     return url;
