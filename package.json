@@ -1,8 +1,10 @@
 {
   "name": "@movable/data-sources-parser",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/data-sources-parser.cjs",
+  "module": "src/index.js",
+  "type": "module",
   "scripts": {
     "test": "eslint . && karma start",
     "develop-test": "NODE_ENV=development karma start",
